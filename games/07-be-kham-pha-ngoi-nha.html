@@ -210,7 +210,7 @@ function showHow(){ $('howModal').classList.add('show'); }
 function hideHow(){ $('howModal').classList.remove('show'); }
 $('howHit').addEventListener('click',showHow);$('closeHow').addEventListener('click',hideHow);
 $('howListen').addEventListener('click',async()=>{const t='Quan sát món đồ được viền vàng ở khay phía dưới. Kéo món đồ vào đúng phòng ngủ, phòng bếp hoặc phòng tắm. Nếu trả lời đúng, con được tặng một ngôi sao và trò chơi tự động chuyển sang món đồ tiếp theo. Nếu chưa đúng, con thử lại nhé. Không có giới hạn thời gian.';await speak(t);});
-$('startHit').addEventListener('click',()=>{if(!introDone){setIntroBoard('Bé nghe hướng dẫn nhé!','Con hãy nghe lời chào và hướng dẫn trước khi bắt đầu trò chơi.','Nếu chưa nghe thấy tiếng, chạm vào biểu tượng loa.');$('introBoard').classList.remove('hide');return;}startGame();});
+$('startHit').addEventListener('click',async()=>{if(introRunning)return;if(!introDone){await runIntro(true);startGame();return;}startGame();});
 function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;}
 function createOrder(){const rooms=['bedroom','kitchen','bathroom'];const pools=Object.fromEntries(rooms.map(r=>[r,shuffle(ITEMS.filter(it=>it.room===r))]));let result=[];for(let pack=0;pack<3;pack++){let group=[];rooms.forEach(r=>group.push(...pools[r].slice(pack*2,pack*2+2)));result.push(...shuffle(group));}return result;}
 function startGame(){if(synth)synth.cancel();hideHow();setScreen('play');order=createOrder();current=0;score=0;busy=false;selected=null;['bedroom','kitchen','bathroom'].forEach(r=>$('placed-'+r).innerHTML='');$('feedback').className='feedback';renderTray();updateHud();askCurrent();}
@@ -288,11 +288,8 @@ function finishGame(){
  // Không phát lời thoại hoặc hiệu ứng âm thanh sau khi bé trả lời.
 }
 $('replayBtn').addEventListener('click',()=>{if(synth)synth.cancel();setScreen('cover');introDone=true;introRunning=false;$('introBoard').classList.add('hide');startGame();});
-// On opening, show the spoken greeting and its matching text automatically.
-window.addEventListener('load',()=>{setTimeout(()=>runIntro(),350);});
-// If the browser blocks automatic speech, a first touch retries the greeting sequence.
-let firstTouchRetried=false;
-window.addEventListener('pointerdown',()=>{if(!introDone&&!firstTouchRetried){firstTouchRetried=true;setTimeout(()=>{if(!introDone){$('soundEnable').style.display='inline-block';$('introStatus').textContent='Nếu chưa nghe thấy tiếng, chạm nút bên dưới để bật âm thanh nhé!';}},1200);}}, {once:true});
+// Không tự phát lời thoại khi vừa mở trang: điện thoại thường chặn autoplay.
+// Lời chào và hướng dẫn được phát ngay từ thao tác BẮT ĐẦU của trẻ.
 $('soundEnable').addEventListener('click',()=>{if(synth)synth.cancel();$('soundEnable').style.display='none';introRunning=false;runIntro(true);});
 setSoundButtons();
 </script>

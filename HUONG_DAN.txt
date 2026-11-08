@@ -19,3 +19,8 @@ NỘI DUNG ĐÃ GHÉP
 
 DÙNG TRÊN ĐIỆN THOẠI / IPAD
 Để trẻ mở bằng QR hoặc đường link, hãy tải toàn bộ nội dung bên trong thư mục đã giải nén (index.html, games, assets, các file hướng dẫn) lên Netlify. Không tải riêng index.html.
+
+ÂM THANH TRÊN ĐIỆN THOẠI / IPAD
+- Khi vừa mở một trò chơi, trình duyệt có thể không cho phát âm thanh tự động. Đây là cơ chế bảo vệ của Chrome, Safari và các trình duyệt di động, không phải lỗi của trò chơi.
+- Bé nhấn nút BẮT ĐẦU CHƠI để kích hoạt lời chào/câu hỏi và âm thanh trong trò chơi. Với trò chơi có biểu tượng loa, có thể chạm biểu tượng loa để bật hoặc nghe lại.
+- Nếu vẫn chưa nghe thấy tiếng sau khi chạm BẮT ĐẦU hoặc biểu tượng loa, hãy tăng âm lượng phương tiện của thiết bị và kiểm tra xem trò chơi có đang tắt tiếng hay không.
