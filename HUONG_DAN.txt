@@ -1,0 +1,21 @@
+KHO GAME TƯƠNG TÁC AI – BÉ THÔNG THÁI
+BẢN GHÉP LẠI 15 TRÒ CHƠI HTML GỐC
+
+QUAN TRỌNG – CÁCH MỞ ĐÚNG TRÊN MÁY TÍNH
+1. Tải file ZIP về máy.
+2. Nhấp chuột phải vào file ZIP → chọn “Giải nén tất cả” (Extract All).
+3. Mở thư mục “Kho_Game_Be_Thong_Thai_BAN_GHEP_LAI”.
+4. Nhấp đúp “MO_KHO_GAME.bat” hoặc mở “index.html” bằng Chrome/Cốc Cốc.
+5. Chỉ mở kho game sau khi đã giải nén. Không mở index.html ngay trong cửa sổ xem file ZIP.
+
+VÌ SAO CÔ THẤY KHUNG TRÒ CHƠI MÀU XÁM?
+Khi mở index.html trực tiếp bên trong ZIP, trình duyệt có thể đọc được trang chủ nhưng không truy cập được các tệp ở thư mục games. Vì vậy khung trò chơi hiện biểu tượng tệp lỗi. Bản này đã có cảnh báo tự động nếu phát hiện đang mở từ ZIP.
+
+NỘI DUNG ĐÃ GHÉP
+- 15 trò chơi HTML cô vừa gửi được đặt lại đúng tên và đúng cổng trong thư mục games.
+- 16 trò chơi dạng liên kết vẫn giữ nguyên liên kết gốc.
+- Giữ nguyên giao diện, ảnh bìa khu vườn cổ tích, logo Trường Mầm non Thụy Lâm, tác giả, danh mục và bố cục của app.
+- Không thêm lại “Giải cứu vương quốc chữ cái” và “Sớm mai thức dậy”.
+
+DÙNG TRÊN ĐIỆN THOẠI / IPAD
+Để trẻ mở bằng QR hoặc đường link, hãy tải toàn bộ nội dung bên trong thư mục đã giải nén (index.html, games, assets, các file hướng dẫn) lên Netlify. Không tải riêng index.html.

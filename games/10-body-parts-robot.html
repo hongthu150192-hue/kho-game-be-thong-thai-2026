@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BODY PARTS – Robot's Challenge</title>
+<style>
+:root{--navy:#17345f;--blue:#42b8e8;--yellow:#ffd45e;--pink:#ff8fb5;--green:#55c99a;--ink:#183451}
+*{box-sizing:border-box}
+body{margin:0;font-family:"Trebuchet MS",Arial,sans-serif;color:var(--ink);background:linear-gradient(135deg,#dff7ff,#fff1f7 52%,#fff6d9);min-height:100vh}
+button{font:inherit;cursor:pointer;border:0}
+.app{max-width:1200px;margin:auto;padding:18px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px}
+.brand{font-weight:1000;letter-spacing:1px;color:#176a9b;font-size:clamp(18px,3vw,28px)}
+.top-actions{display:flex;gap:8px;flex-wrap:wrap}
+.smallbtn{background:white;border:2px solid #c8e6f3;border-radius:14px;padding:9px 13px;font-weight:800;color:#276182}
+.screen{background:rgba(255,255,255,.92);border:3px solid white;border-radius:28px;box-shadow:0 14px 40px #47769b20;padding:clamp(16px,3vw,30px)}
+.hero{display:grid;grid-template-columns: minmax(180px, .8fr) 1.2fr;gap:20px;align-items:center}
+.robot-wrap{background:linear-gradient(145deg,#c7f2ff,#e8e2ff);border-radius:26px;min-height:270px;display:grid;place-items:center;position:relative;overflow:hidden}
+.robot{font-size:clamp(110px,18vw,190px);filter:drop-shadow(0 12px 8px #527b9b30);animation:bob 2.2s infinite ease-in-out}
+@keyframes bob{50%{transform:translateY(-12px) rotate(2deg)}}
+.spark{position:absolute;font-size:28px;animation:twinkle 2s infinite}
+.s1{top:20px;left:20px}.s2{right:25px;top:50px;animation-delay:.5s}.s3{bottom:25px;left:28px;animation-delay:1s}
+@keyframes twinkle{50%{transform:scale(1.35) rotate(20deg)}}
+h1{font-size:clamp(32px,5vw,58px);line-height:1;margin:0;color:#176a9b}
+.subtitle{font-size:clamp(17px,2.4vw,24px);font-weight:900;color:#ed8a43;margin:10px 0 16px}
+.intro{font-size:17px;line-height:1.55}
+.team-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:20px 0}
+.team-card{border:3px solid transparent;border-radius:18px;padding:14px;text-align:center;font-weight:900}
+.team-card:nth-child(1){background:#e0f6ff;border-color:#72ccef}.team-card:nth-child(2){background:#fff4cf;border-color:#f5ce58}.team-card:nth-child(3){background:#ffe5ef;border-color:#f49abd}
+.team-icon{font-size:42px;display:block;margin-bottom:5px}
+.primary{background:linear-gradient(90deg,#168dc2,#38b6dc);color:white;padding:15px 26px;border-radius:18px;font-size:20px;font-weight:1000;box-shadow:0 6px 0 #116d9a}
+.primary:active{transform:translateY(3px);box-shadow:0 3px 0 #116d9a}
+.center{text-align:center}
+.scorebar{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:14px}
+.score{padding:12px;border-radius:17px;text-align:center;font-weight:900;border:3px solid transparent}
+.score.active{outline:4px solid #ffd45e;transform:translateY(-2px)}
+.score .name{font-size:14px}.score .points{font-size:27px;display:block}
+.score.blue{background:#e0f6ff;border-color:#72ccef}.score.yellow{background:#fff4cf;border-color:#f5ce58}.score.pink{background:#ffe5ef;border-color:#f49abd}
+.progressline{height:12px;background:#e6eff5;border-radius:99px;overflow:hidden;margin:12px 0 20px}
+.progressline>div{height:100%;background:linear-gradient(90deg,#42b8e8,#65d6a7);width:0%;transition:width .3s}
+.question-head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.pill{background:#eaf7fc;color:#26769c;border-radius:99px;padding:8px 13px;font-weight:900}
+.robot-says{display:flex;align-items:center;justify-content:center;gap:14px;background:linear-gradient(100deg,#e6f8ff,#f4edff);border-radius:20px;padding:14px;margin:14px 0}
+.robot-mini{font-size:65px}
+.listen{background:#ffd45e;color:#644600;border-radius:16px;padding:12px 18px;font-weight:1000;font-size:17px}
+.prompt{font-size:clamp(23px,4vw,36px);font-weight:1000;color:#1b6793;text-align:center}
+.answers{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:18px 0}
+.answer{background:white;border:3px solid #d8eaf3;border-radius:20px;min-height:155px;padding:12px 8px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;box-shadow:0 5px 0 #d7e6ed;transition:.15s}
+.answer:hover{transform:translateY(-3px);border-color:#61c2e8}
+.answer:disabled{cursor:default;opacity:.85}
+.answer .emoji{font-size:clamp(45px,7vw,70px)}
+.answer .word{font-size:clamp(15px,2vw,20px);font-weight:1000;color:#245578}
+.answer.correct{background:#e2faec;border-color:#52c58a;box-shadow:0 5px 0 #a5dfbd}
+.answer.wrong{background:#fff0f0;border-color:#f28c8c;animation:shake .25s}
+@keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+.feedback{min-height:55px;border-radius:16px;padding:12px;text-align:center;font-weight:1000;font-size:19px;margin:10px 0}
+.feedback.good{background:#e1f8e9;color:#16834b}.feedback.try{background:#fff4d9;color:#98600b}
+.bottom-row{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}
+.next{background:#55bd91;color:white;border-radius:16px;padding:13px 22px;font-size:18px;font-weight:1000}
+.next:disabled{opacity:.4;cursor:not-allowed}
+.note{font-size:13px;color:#6a8295}
+.result-trophy{font-size:90px}
+.winners{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:18px 0}
+.winner{padding:18px;border-radius:20px;text-align:center;font-weight:900}
+.winner:nth-child(1){background:#fff2c7}.winner:nth-child(2){background:#e8f2fa}.winner:nth-child(3){background:#ffe8df}
+.winner .big{font-size:48px}
+.hidden{display:none!important}
+.footer{text-align:center;color:#648197;font-size:12px;padding:14px}
+@media(max-width:720px){.hero{grid-template-columns:1fr}.robot-wrap{min-height:180px}.robot{font-size:115px}.answers{grid-template-columns:repeat(2,1fr)}.answer{min-height:130px}.team-grid{gap:7px}.team-card{padding:10px 5px}.scorebar{gap:5px}.score{padding:9px 3px}.score .name{font-size:12px}}
+@media print{.top-actions,.primary,.listen,.next{display:none}}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="top">
+    <div class="brand">🤖 BODY PARTS · ROBOT'S CHALLENGE</div>
+    <div class="top-actions">
+      <button class="smallbtn" id="soundToggle">🔊 Âm thanh: Bật</button>
+      <button class="smallbtn" id="fullBtn">⛶ Toàn màn hình</button>
+    </div>
+  </div>
+
+  <section class="screen" id="welcome">
+    <div class="hero">
+      <div class="robot-wrap"><span class="spark s1">⭐</span><span class="spark s2">✨</span><span class="spark s3">🌟</span><div class="robot">🤖</div></div>
+      <div>
+        <h1>BODY PARTS!</h1>
+        <div class="subtitle">ROBOT'S CHALLENGE – Thử thách cùng Robot</div>
+        <p class="intro">Xin chào các bạn nhỏ! Robot đang cần những nhà thám hiểm thật thông minh để khám phá các bộ phận cơ thể người. Các đội đã sẵn sàng chưa?</p>
+        <p class="intro"><b>🎯 Nhiệm vụ:</b> Nghe từ tiếng Anh, quan sát hình ảnh và chọn đáp án đúng.</p>
+        <button class="primary" id="startBtn">🚀 BẮT ĐẦU THỬ THÁCH</button>
+      </div>
+    </div>
+    <div class="team-grid">
+      <div class="team-card"><span class="team-icon">🤖</span>ĐỘI ROBOT XANH</div>
+      <div class="team-card"><span class="team-icon">🤖</span>ĐỘI ROBOT VÀNG</div>
+      <div class="team-card"><span class="team-icon">🤖</span>ĐỘI ROBOT HỒNG</div>
+    </div>
+    <p class="note center">12 câu hỏi · 4 lựa chọn · Mỗi câu đúng được 10 điểm · Các đội lần lượt thi đấu</p>
+  </section>
+
+  <section class="screen hidden" id="game">
+    <div class="scorebar" id="scorebar"></div>
+    <div class="question-head">
+      <span class="pill" id="qNumber">THỬ THÁCH 1 / 12</span>
+      <span class="pill" id="teamTurn">Lượt của đội Robot Xanh</span>
+    </div>
+    <div class="progressline"><div id="progress"></div></div>
+    <div class="robot-says">
+      <div class="robot-mini">🤖</div>
+      <div style="flex:1">
+        <div class="prompt" id="prompt">Find the HEAD!</div>
+        <div class="center note">Robot sẽ đọc từ tiếng Anh. Các con hãy lắng nghe nhé!</div>
+      </div>
+      <button class="listen" id="listenBtn">🔊 NGHE</button>
+    </div>
+    <div class="answers" id="answers"></div>
+    <div class="feedback" id="feedback">Chạm vào hình ảnh mà con chọn nhé!</div>
+    <div class="bottom-row">
+      <span class="note" id="helper">Mỗi đội có một lượt ở mỗi câu hỏi.</span>
+      <button class="next" id="nextBtn" disabled>CÂU TIẾP THEO ➜</button>
+    </div>
+  </section>
+
+  <section class="screen hidden center" id="result">
+    <div class="result-trophy">🏆</div>
+    <h1>WELL DONE!</h1>
+    <div class="subtitle">Các đội đã hoàn thành thử thách!</div>
+    <p class="intro">Robot rất tự hào về tất cả các bạn. Cùng xem đội nào nhận được nhiều ngôi sao nhất nhé!</p>
+    <div class="winners" id="winners"></div>
+    <button class="primary" id="againBtn">🔄 CHƠI LẠI</button>
+  </section>
+  <div class="footer">Một sản phẩm trò chơi tương tác hỗ trợ hoạt động làm quen tiếng Anh cho trẻ mầm non · BODY PARTS</div>
+</div>
+<script>
+const questions = [
+ {word:"HEAD",emoji:"😀",choices:[["HEAD","😀"],["NOSE","👃"],["HAND","✋"],["FOOT","🦶"]]},
+ {word:"SHOULDERS",emoji:"🙆",choices:[["KNEES","🦵"],["SHOULDERS","🙆"],["TOES","🦶"],["EARS","👂"]]},
+ {word:"KNEES",emoji:"🦵",choices:[["HEAD","😀"],["KNEES","🦵"],["HANDS","🙌"],["MOUTH","👄"]]},
+ {word:"TOES",emoji:"🦶",choices:[["FINGERS","🤚"],["EYES","👀"],["TOES","🦶"],["SHOULDERS","🙆"]]},
+ {word:"EYES",emoji:"👀",choices:[["EARS","👂"],["EYES","👀"],["NOSE","👃"],["MOUTH","👄"]]},
+ {word:"EARS",emoji:"👂",choices:[["EARS","👂"],["ARMS","💪"],["FEET","🦶"],["HEAD","😀"]]},
+ {word:"NOSE",emoji:"👃",choices:[["MOUTH","👄"],["NOSE","👃"],["EYES","👀"],["HANDS","🙌"]]},
+ {word:"MOUTH",emoji:"👄",choices:[["TOES","🦶"],["KNEES","🦵"],["MOUTH","👄"],["EARS","👂"]]},
+ {word:"HANDS",emoji:"🙌",choices:[["LEGS","🦵"],["HANDS","🙌"],["FEET","🦶"],["NOSE","👃"]]},
+ {word:"ARMS",emoji:"💪",choices:[["ARMS","💪"],["EYES","👀"],["TOES","🦶"],["MOUTH","👄"]]},
+ {word:"LEGS",emoji:"🦵",choices:[["HEAD","😀"],["HANDS","🙌"],["LEGS","🦵"],["EARS","👂"]]},
+ {word:"FEET",emoji:"🦶",choices:[["SHOULDERS","🙆"],["FEET","🦶"],["EYES","👀"],["ARMS","💪"]]}
+];
+const teams=[{name:"ROBOT XANH",cls:"blue",icon:"🤖",score:0},{name:"ROBOT VÀNG",cls:"yellow",icon:"🤖",score:0},{name:"ROBOT HỒNG",cls:"pink",icon:"🤖",score:0}];
+let q=0,turn=0,answered=false,soundOn=true,wrongTries=0;
+const $=id=>document.getElementById(id);
+function speak(word){
+ if(!soundOn || !("speechSynthesis" in window)) return;
+ speechSynthesis.cancel();
+ const u=new SpeechSynthesisUtterance(word.toLowerCase());
+ u.lang="en-US";u.rate=.78;u.pitch=1.12;speechSynthesis.speak(u);
+}
+function tone(ok){
+ if(!soundOn)return;
+ try{const ctx=new (window.AudioContext||window.webkitAudioContext)();const o=ctx.createOscillator(),g=ctx.createGain();o.connect(g);g.connect(ctx.destination);o.type="sine";o.frequency.value=ok?660:220;g.gain.setValueAtTime(.12,ctx.currentTime);g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+.28);o.start();o.stop(ctx.currentTime+.3)}catch(e){}
+}
+function renderScores(){
+ $("scorebar").innerHTML=teams.map((t,i)=>`<div class="score ${t.cls} ${i===turn?'active':''}"><span class="name">${t.icon} ${t.name}</span><span class="points">${t.score} ⭐</span></div>`).join("");
+ $("teamTurn").textContent="Lượt của "+teams[turn].name;
+}
+function start(){q=0;turn=0;answered=false;wrongTries=0;teams.forEach(t=>t.score=0);$("welcome").classList.add("hidden");$("result").classList.add("hidden");$("game").classList.remove("hidden");renderQuestion()}
+function renderQuestion(){
+ answered=false;wrongTries=0;const item=questions[q];
+ $("qNumber").textContent=`THỬ THÁCH ${q+1} / ${questions.length}`;
+ $("progress").style.width=(q/questions.length*100)+"%";
+ $("prompt").textContent="Find the "+item.word+"!";
+ $("feedback").className="feedback";$("feedback").textContent="Chạm vào hình ảnh mà con chọn nhé!";
+ $("helper").textContent="Mỗi đội có một lượt ở câu hỏi này.";
+ $("nextBtn").disabled=true;
+ renderScores();
+ $("answers").innerHTML="";
+ const shuffled=[...item.choices].sort(()=>Math.random()-.5);
+ shuffled.forEach(([word,emoji])=>{
+   const b=document.createElement("button");b.className="answer";
+   b.innerHTML=`<span class="emoji">${emoji}</span><span class="word">${word}</span>`;
+   b.addEventListener("click",()=>choose(b,word,item.word));
+   $("answers").appendChild(b);
+ });
+ setTimeout(()=>speak(item.word),450);
+}
+function choose(btn,chosen,correct){
+ if(answered)return;
+ if(chosen===correct){
+  answered=true;teams[turn].score+=10;tone(true);
+  btn.classList.add("correct");
+  [...$("answers").children].forEach(b=>b.disabled=true);
+  $("feedback").className="feedback good";
+  $("feedback").textContent="🎉 CORRECT! EXCELLENT! +10 điểm cho "+teams[turn].name+" ⭐";
+  $("helper").textContent="Giỏi lắm! Cả đội cùng vỗ tay nào! 👏";
+  $("nextBtn").disabled=false;renderScores();
+ }else{
+  wrongTries++;tone(false);btn.classList.add("wrong");btn.disabled=true;
+  $("feedback").className="feedback try";
+  $("feedback").textContent="💛 TRY AGAIN! Con hãy nghe Robot và thử lại nhé!";
+  $("helper").textContent="Không sao, chúng mình cùng cố gắng!";
+ }
+}
+function next(){
+ if(!answered)return;
+ if(turn<2){turn++;renderQuestion();return}
+ turn=0;q++;
+ if(q>=questions.length){showResult();return}
+ renderQuestion();
+}
+function showResult(){
+ $("game").classList.add("hidden");$("result").classList.remove("hidden");
+ const sorted=teams.map((t,i)=>({...t,original:i})).sort((a,b)=>b.score-a.score);
+ const medals=["🥇","🥈","🥉"];
+ $("winners").innerHTML=sorted.map((t,i)=>`<div class="winner"><div class="big">${medals[i]}</div><div>${t.name}</div><div style="font-size:28px;margin-top:8px">${t.score} ⭐</div></div>`).join("");
+ $("progress").style.width="100%";
+}
+$("startBtn").onclick=start;
+$("nextBtn").onclick=next;
+$("listenBtn").onclick=()=>speak(questions[q].word);
+$("againBtn").onclick=start;
+$("soundToggle").onclick=()=>{soundOn=!soundOn;$("soundToggle").textContent=soundOn?"🔊 Âm thanh: Bật":"🔇 Âm thanh: Tắt";if(!soundOn&&"speechSynthesis"in window)speechSynthesis.cancel()};
+$("fullBtn").onclick=()=>{if(!document.fullscreenElement)document.documentElement.requestFullscreen?.();else document.exitFullscreen?.()};
+</script>
+</body>
+</html>

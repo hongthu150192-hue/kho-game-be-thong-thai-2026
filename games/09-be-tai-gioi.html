@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Bé Tài Giỏi – Kết Nối Thông Minh</title>
+<style>
+:root{--ink:#4a3b6b;--sky:#d9f0ff;--pink:#ffd6e8;--mint:#d6f5e3;--sun:#ffe9a8;--btn:#ff7eb6;--btn2:#ffb347}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none}
+html,body{margin:0;height:100%;overflow:hidden;font-family:"Baloo 2","Nunito","Chalkboard SE","Comic Sans MS",system-ui,sans-serif;color:var(--ink);
+background:linear-gradient(180deg,#bfe6ff 0%,#e8f6ff 55%,#d6f5e3 100%)}
+.screen{position:fixed;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;padding:env(safe-area-inset-top) 12px env(safe-area-inset-bottom);text-align:center}
+.screen.on{display:flex}
+.deco{position:absolute;font-size:min(9vw,70px);animation:bob 3s ease-in-out infinite;pointer-events:none}
+@keyframes bob{50%{transform:translateY(-14px) rotate(6deg)}}
+h1{font-size:clamp(26px,6vw,58px);margin:.2em 0;line-height:1.1;color:#ff5fa2;text-shadow:0 3px 0 #fff,0 6px 0 #ffc2dc,0 10px 14px rgba(120,60,140,.25)}
+h1 small{display:block;font-size:.6em;color:#3aa6e8;text-shadow:0 3px 0 #fff,0 6px 0 #b9e2fa}
+.mascots{font-size:min(22vw,150px);display:flex;gap:4vw;align-items:flex-end}
+.mascots span{display:inline-block;filter:drop-shadow(0 10px 6px rgba(0,0,0,.18));animation:dance .7s ease-in-out infinite alternate}
+.mascots span:nth-child(2){animation-delay:.35s}
+@keyframes dance{from{transform:translateY(0) rotate(-8deg)}to{transform:translateY(-22px) rotate(8deg)}}
+.big{border:0;cursor:pointer;font:inherit;font-weight:800;font-size:clamp(22px,4.5vw,40px);color:#fff;padding:.4em 1.6em;border-radius:999px;
+background:linear-gradient(180deg,#ff9ccb,var(--btn));box-shadow:0 8px 0 #d94f8f,0 14px 18px rgba(0,0,0,.2);transition:transform .1s}
+.big:active{transform:translateY(6px);box-shadow:0 2px 0 #d94f8f}
+.big.alt{background:linear-gradient(180deg,#ffd27a,var(--btn2));box-shadow:0 8px 0 #d98a1f,0 14px 18px rgba(0,0,0,.2)}
+/* game */
+#game{justify-content:flex-start;padding-top:max(8px,env(safe-area-inset-top))}
+.top{width:100%;max-width:1000px;display:flex;align-items:center;gap:8px}
+.title{flex:1;background:#fff;border-radius:22px;padding:6px 14px;box-shadow:0 5px 0 #cfe6f7}
+.title b{display:block;font-size:clamp(16px,3.2vw,28px);color:#ff5fa2}
+.title span{font-size:clamp(13px,2.4vw,20px)}
+.ib{border:0;width:clamp(42px,8vw,56px);height:clamp(42px,8vw,56px);border-radius:50%;font-size:clamp(20px,4vw,28px);cursor:pointer;background:#fff;box-shadow:0 4px 0 #cfe6f7}
+.ib.off{opacity:.45;filter:grayscale(1)}
+.stat{width:100%;max-width:1000px;display:flex;align-items:center;gap:10px;margin:8px 0;font-weight:800;font-size:clamp(13px,2.6vw,20px)}
+.bar{flex:1;height:18px;background:#fff;border-radius:99px;overflow:hidden;box-shadow:inset 0 2px 4px rgba(0,0,0,.15)}
+.bar i{display:block;height:100%;width:0;background:linear-gradient(90deg,#7ee0a0,#ffd34d,#ff9ccb);border-radius:99px;transition:width .5s}
+.pill{background:#fff;border-radius:99px;padding:2px 12px;box-shadow:0 3px 0 #cfe6f7;white-space:nowrap}
+#board{position:relative;flex:1;min-height:0;width:100%;max-width:1000px;display:flex;justify-content:space-between;padding-bottom:6px}
+.col{width:34%;display:flex;flex-direction:column;gap:1.4vh;justify-content:center}
+.card{flex:1;min-height:0;max-height:19vh;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#fff;border:4px solid #fff;border-radius:22px;cursor:pointer;
+box-shadow:0 6px 0 #b9dcf2,0 10px 14px rgba(70,90,140,.18);transition:transform .15s,box-shadow .15s;position:relative;z-index:2;overflow:hidden}
+.col.l .card{background:linear-gradient(180deg,#fff,#fff0f7)}.col.r .card{background:linear-gradient(180deg,#fff,#effaff)}
+.card:hover{transform:scale(1.03)}
+.card.sel{border-color:#ffb300;transform:scale(1.07);box-shadow:0 0 0 5px #ffe28a,0 8px 14px rgba(0,0,0,.2)}
+.card.done{border-color:#7ed99a;background:#eafff1!important;cursor:default;transform:none}
+.card.done::after{content:"✔";position:absolute;top:2px;right:8px;color:#27ae60;font-size:clamp(14px,3vw,24px);font-weight:900}
+.card.shake{animation:shake .45s}
+@keyframes shake{20%,60%{transform:translateX(-9px)}40%,80%{transform:translateX(9px)}}
+.art{flex:1;min-height:0;width:100%;display:flex;align-items:center;justify-content:center;font-size:min(9vh,11vw);line-height:1;padding:2px}
+.art svg{height:100%;max-width:100%}
+.art.num{font-size:min(12vh,16vw);font-weight:900;color:#ff5fa2}
+.art.grp{font-size:min(5.4vh,6.5vw);flex-wrap:wrap;gap:0 2px;align-content:center}
+.lb{font-weight:800;font-size:clamp(11px,2.3vw,19px);padding-bottom:3px;text-align:center;line-height:1.05}
+#lines{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1;overflow:visible}
+#lines path{fill:none;stroke-width:9;stroke-linecap:round;filter:drop-shadow(0 3px 2px rgba(0,0,0,.2))}
+#lines path.draw{stroke-dasharray:1;stroke-dashoffset:1;animation:dr .5s forwards}
+@keyframes dr{to{stroke-dashoffset:0}}
+.fx{position:fixed;pointer-events:none;z-index:50;font-size:28px;animation:fly 1.4s ease-out forwards}
+@keyframes fly{from{opacity:1;transform:translate(0,0) scale(.5)}to{opacity:0;transform:translate(var(--x),var(--y)) scale(1.4) rotate(240deg)}}
+#banner{position:fixed;inset:0;z-index:40;display:none;align-items:center;justify-content:center;background:rgba(255,255,255,.7);flex-direction:column;font-size:clamp(26px,6vw,54px);font-weight:900;color:#ff5fa2;text-align:center}
+#banner.on{display:flex}#banner div{font-size:3em;animation:dance .5s infinite alternate}
+.win p{font-size:clamp(18px,3.8vw,34px);font-weight:900;max-width:850px;margin:.3em 0;color:#ff5fa2}
+.score{font-size:clamp(28px,6vw,54px);font-weight:900;background:#fff;padding:.1em .8em;border-radius:99px;box-shadow:0 6px 0 #ffd27a;margin:.2em 0 .5em}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.01s!important}}
+</style>
+</head>
+<body>
+
+<section id="start" class="screen on">
+  <span class="deco" style="left:4%;top:6%">🌈</span><span class="deco" style="right:6%;top:8%;animation-delay:.5s">⭐</span>
+  <span class="deco" style="left:8%;bottom:10%;animation-delay:1s">🌸</span><span class="deco" style="right:8%;bottom:12%;animation-delay:.3s">🌼</span>
+  <span class="deco" style="left:30%;top:3%;animation-delay:.8s">☁️</span><span class="deco" style="right:28%;bottom:4%;animation-delay:1.2s">🦋</span>
+  <div class="mascots"><span>🐰</span><span>🐻</span></div>
+  <h1>BÉ TÀI GIỎI<small>KẾT NỐI THÔNG MINH</small></h1>
+  <button class="big" id="btnStart">▶ BẮT ĐẦU</button>
+  <p style="font-weight:800">Dành cho bé 5–6 tuổi cùng bố mẹ</p>
+</section>
+
+<section id="game" class="screen">
+  <div class="top">
+    <div class="title"><b id="tTitle"></b><span id="tHint"></span></div>
+    <button class="ib" id="btnMusic" title="Nhạc nền">🎵</button>
+    <button class="ib" id="btnVoice" title="Giọng đọc">🗣️</button>
+    <button class="ib" id="btnReplay" title="Chơi lại">🔄</button>
+  </div>
+  <div class="stat"><span class="pill" id="sCh"></span><div class="bar"><i id="bar"></i></div><span class="pill" id="sDone"></span><span class="pill">⭐ <span id="sScore">0</span></span></div>
+  <div id="board"><svg id="lines"></svg><div class="col l" id="colL"></div><div class="col r" id="colR"></div></div>
+</section>
+
+<div id="banner"><div id="bnIcon">🎉</div><span id="bnText"></span></div>
+
+<section id="win" class="screen win">
+  <div class="mascots"><span>🐰</span><span>🐻</span></div>
+  <p>🎆 CHÚC MỪNG BÉ! CON ĐÃ HOÀN THÀNH TẤT CẢ THỬ THÁCH. BÉ THẬT THÔNG MINH! 🎆</p>
+  <div class="score">⭐ <span id="wScore">0</span> / 210 điểm</div>
+  <button class="big alt" id="btnAgain">🔄 CHƠI LẠI</button>
+</section>
+
+<script>
+/* ---------- Hình minh họa SVG ---------- */
+const sv=b=>`<svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">${b}</svg>`;
+const rot=(a,s)=>a.map(d=>`<line x1="50" y1="${s[0]}" x2="50" y2="${s[1]}" transform="rotate(${d} 50 50)"/>`).join('');
+const seeds=(n,r,rx,ry,c)=>Array.from({length:n},(_,i)=>{const a=i*2*Math.PI/n;return `<ellipse cx="${50+r*Math.sin(a)}" cy="${50-r*Math.cos(a)}" rx="${rx}" ry="${ry}" fill="${c}" transform="rotate(${i*360/n} ${50+r*Math.sin(a)} ${50-r*Math.cos(a)})"/>`}).join('');
+const ART={
+ pond:sv('<ellipse cx="50" cy="60" rx="46" ry="28" fill="#6ec6ff"/><ellipse cx="50" cy="56" rx="35" ry="19" fill="#9fdcff"/><path d="M28 54q8-6 16 0M54 60q8-6 16 0" stroke="#fff" stroke-width="3" fill="none" stroke-linecap="round"/><ellipse cx="72" cy="48" rx="9" ry="4" fill="#5fcf80"/>'),
+ nest:sv('<ellipse cx="50" cy="64" rx="42" ry="22" fill="#a9744a"/><ellipse cx="50" cy="56" rx="31" ry="14" fill="#6b4226"/><ellipse cx="40" cy="54" rx="7" ry="9" fill="#fff7e0"/><ellipse cx="58" cy="55" rx="7" ry="9" fill="#fff7e0"/><path d="M12 62q38 32 76 0" stroke="#7d5232" stroke-width="3" fill="none"/>'),
+ burrow:sv('<path d="M4 90Q50 -14 96 90Z" fill="#8bd17c"/><ellipse cx="50" cy="80" rx="17" ry="22" fill="#4a3426"/><circle cx="26" cy="62" r="5" fill="#ffd1dc"/><circle cx="76" cy="66" r="5" fill="#fff"/>'),
+ hive:sv('<ellipse cx="50" cy="52" rx="34" ry="44" fill="#f7c948"/><g fill="none" stroke="#d99a1c" stroke-width="4"><path d="M18 34q32 12 64 0M16 54q34 14 68 0M20 74q30 12 60 0"/></g><ellipse cx="50" cy="62" rx="10" ry="12" fill="#5a3a12"/><rect x="46" y="4" width="8" height="12" fill="#8b5a2b"/>'),
+ orange:sv(`<circle cx="50" cy="50" r="43" fill="#ff9f1c"/><circle cx="50" cy="50" r="36" fill="#ffd27a"/><g stroke="#fff3d6" stroke-width="3">${rot([0,60,120],[16,84])}</g><circle cx="50" cy="50" r="5" fill="#fff3d6"/>`),
+ melon:sv(`<path d="M5 28Q50 112 95 28Z" fill="#3f9b4a"/><path d="M12 30Q50 96 88 30Z" fill="#ff5d73"/><g fill="#2b2b2b"><ellipse cx="34" cy="44" rx="3" ry="5"/><ellipse cx="50" cy="52" rx="3" ry="5"/><ellipse cx="66" cy="44" rx="3" ry="5"/><ellipse cx="50" cy="68" rx="3" ry="5"/></g>`),
+ apple:sv(`<circle cx="50" cy="56" r="38" fill="#ff6b6b"/><circle cx="50" cy="56" r="31" fill="#fff4d6"/><path d="M50 40q-8 16 0 32q8-16 0-32" fill="#d9a066"/><circle cx="46" cy="56" r="2.5" fill="#4a2a10"/><circle cx="54" cy="56" r="2.5" fill="#4a2a10"/><path d="M50 18q2-10 10-12" stroke="#7a4a21" stroke-width="4" fill="none"/>`),
+ kiwi:sv(`<circle cx="50" cy="50" r="42" fill="#8a6a3b"/><circle cx="50" cy="50" r="37" fill="#8fd14f"/><circle cx="50" cy="50" r="12" fill="#eef9d0"/>${seeds(14,22,2.2,3.6,'#222')}`),
+ wood:sv('<rect x="8" y="20" width="84" height="60" rx="10" fill="#c68a4f"/><g fill="none" stroke="#9a6532" stroke-width="3" stroke-linecap="round"><path d="M14 36q30-8 70 0M14 52q40 8 72 0M14 66q30-6 60 2"/><ellipse cx="70" cy="44" rx="7" ry="4"/></g>'),
+ glass:sv('<rect x="8" y="20" width="84" height="60" rx="10" fill="#c8efff" stroke="#7cc4e8" stroke-width="4"/><path d="M20 30l22 0-22 30z" fill="#fff" opacity=".85"/><path d="M58 70l22-30" stroke="#fff" stroke-width="6" stroke-linecap="round" opacity=".8"/>'),
+ cloth:sv('<rect x="8" y="20" width="84" height="60" rx="8" fill="#ff9ec4"/><g stroke="#fff" stroke-width="5" opacity=".8"><path d="M30 20v60M55 20v60M80 20v60M8 38h84M8 62h84"/></g><path d="M8 20h84" stroke="#e0679a" stroke-width="3" stroke-dasharray="4 4"/>'),
+ plastic:sv('<rect x="8" y="20" width="84" height="60" rx="14" fill="#4fb6ff"/><rect x="16" y="27" width="38" height="9" rx="4.5" fill="#fff" opacity=".7"/><circle cx="76" cy="62" r="6" fill="#fff" opacity=".5"/>')
+};
+const rep=(e,n)=>e.repeat(n);
+
+/* ---------- Dữ liệu 5 thử thách ---------- */
+const CH=[
+ {t:'Những người bạn động vật',h:'Nối con vật với nơi sống của bé nhé!',p:[
+  [['🐟','Con cá'],[ART.pond,'Ao nước']],[['🐦','Chim'],[ART.nest,'Tổ chim']],[['🐰','Thỏ'],[ART.burrow,'Hang thỏ']],[['🐝','Ong'],[ART.hive,'Tổ ong']]]},
+ {t:'Nghề nghiệp của bé',h:'Nối nghề nghiệp với dụng cụ của nghề đó!',p:[
+  [['🧑‍⚕️','Bác sĩ'],['🩺','Ống nghe']],[['🧑‍🎨','Họa sĩ'],['🖌️','Bút vẽ']],[['🧑‍🌾','Bác nông dân'],['⛏️','Cuốc']],[['🧑‍🍳','Đầu bếp'],['🥄','Muôi múc canh']]]},
+ {t:'Thế giới đồ vật',h:'Nối đồ vật với chất liệu làm ra nó!',p:[
+  [['🪑','Ghế gỗ'],[ART.wood,'Gỗ']],[['🥛','Cốc thủy tinh'],[ART.glass,'Thủy tinh']],[['👕','Áo'],[ART.cloth,'Vải']],[['🪣','Xô'],[ART.plastic,'Nhựa']]]},
+ {t:'Bé khám phá thiên nhiên',h:'Nối quả nguyên vẹn với phần bổ đôi của nó!',p:[
+  [['🍊','Quả cam'],[ART.orange,'Nửa quả cam']],[['🍉','Quả dưa hấu'],[ART.melon,'Miếng dưa hấu']],[['🍎','Quả táo'],[ART.apple,'Nửa quả táo']],[['🥝','Quả kiwi'],[ART.kiwi,'Nửa quả kiwi']]]},
+ {t:'Bé thông minh',h:'Nối chữ số với nhóm đồ vật có số lượng đúng!',p:[
+  [['1','Số 1','num'],[rep('⚽',1),'Một quả bóng','grp']],[['2','Số 2','num'],[rep('🌸',2),'Hai bông hoa','grp']],[['3','Số 3','num'],[rep('🍎',3),'Ba quả táo','grp']],
+  [['4','Số 4','num'],[rep('🦋',4),'Bốn con bướm','grp']],[['5','Số 5','num'],[rep('⭐',5),'Năm ngôi sao','grp']]]}
+];
+const TOTAL=CH.reduce((a,c)=>a+c.p.length,0); // 21 cặp => 210 điểm
+const PRAISE=['Chính xác rồi! Bé giỏi quá!','Tuyệt vời!','Con làm rất tốt!'];
+const RETRY=['Con thử lại nhé!','Bé quan sát thật kỹ nào!'];
+const COLORS=['#ff5fa2','#3aa6e8','#ffb300','#7c5cff','#2bc48a'];
+
+/* ---------- Âm thanh ---------- */
+let AC=null,musicOn=true,voiceOn=true,musicTimer=null;
+const $=id=>document.getElementById(id);
+function ac(){try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();if(AC.state==='suspended')AC.resume()}catch(e){}return AC}
+function tone(f,d=.15,type='sine',v=.07,delay=0){const a=ac();if(!a||!musicOn)return;const o=a.createOscillator(),g=a.createGain(),t=a.currentTime+delay;
+ o.type=type;o.frequency.value=f;g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(v,t+.02);g.gain.exponentialRampToValueAtTime(.001,t+d);o.connect(g);g.connect(a.destination);o.start(t);o.stop(t+d+.05)}
+const sfx={pick:()=>tone(660,.1,'triangle'),ok:()=>[523,659,784,1047].forEach((f,i)=>tone(f,.18,'triangle',.08,i*.09)),bad:()=>{tone(300,.18,'sine',.06);tone(240,.22,'sine',.06,.14)},win:()=>[523,659,784,659,784,1047,1319].forEach((f,i)=>tone(f,.25,'triangle',.08,i*.12))};
+const NOTES=[523,587,659,784,880,784,659,587];let ni=0;
+function startMusic(){stopMusic();musicTimer=setInterval(()=>{if(musicOn){tone(NOTES[ni%8],.5,'sine',.025);if(ni%4==0)tone(NOTES[ni%8]/2,.8,'sine',.02)}ni++},500)}
+function stopMusic(){clearInterval(musicTimer)}
+function speak(txt){if(!voiceOn||!('speechSynthesis' in window))return;try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(txt);u.lang='vi-VN';u.rate=.9;u.pitch=1.25;u.volume=.9;
+ const v=speechSynthesis.getVoices().find(v=>v.lang&&v.lang.toLowerCase().startsWith('vi'));if(v)u.voice=v;speechSynthesis.speak(u)}catch(e){}}
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+
+/* ---------- Hiệu ứng ---------- */
+function burst(x,y,n=14,set=['⭐','✨','🎈','🌸','💖']){for(let i=0;i<n;i++){const s=document.createElement('span');s.className='fx';s.textContent=pick(set);
+ s.style.left=x+'px';s.style.top=y+'px';const a=Math.random()*6.28,d=60+Math.random()*130;s.style.setProperty('--x',Math.cos(a)*d+'px');s.style.setProperty('--y',Math.sin(a)*d-40+'px');
+ document.body.appendChild(s);setTimeout(()=>s.remove(),1500)}}
+function fireworks(){let k=0;const iv=setInterval(()=>{burst(innerWidth*(.15+Math.random()*.7),innerHeight*(.15+Math.random()*.5),16,['🎆','✨','⭐','🎇','💫']);if(++k>16)clearInterval(iv)},450)}
+
+/* ---------- Trạng thái trò chơi ---------- */
+let ci=0,score=0,doneAll=0,doneCh=0,selL=null,lock=false,links=[],cards={};
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('on',s.id===id))}
+function mk(side,i,d){const c=document.createElement('div');c.className='card';c.dataset.side=side;c.dataset.id=i;
+ const art=d[0].startsWith('<svg')?d[0]:d[0];const cls=d[2]?d[2]:'';
+ c.innerHTML=`<div class="art ${cls}">${art}</div><div class="lb">${d[1]}</div>`;c.onclick=()=>onCard(c);cards[side+i]=c;return c}
+function loadChallenge(){
+ const C=CH[ci];selL=null;lock=false;links=[];cards={};doneCh=0;$('lines').innerHTML='';
+ $('tTitle').textContent=`Thử thách ${ci+1}: ${C.t}`;$('tHint').textContent=C.h;
+ const L=$('colL'),R=$('colR');L.innerHTML=R.innerHTML='';
+ shuffle(C.p.map((p,i)=>i)).forEach(i=>L.appendChild(mk('L',i,C.p[i][0])));
+ shuffle(C.p.map((p,i)=>i)).forEach(i=>R.appendChild(mk('R',i,C.p[i][1])));
+ updateStats();speak(`${C.t}. ${C.h}`)}
+function updateStats(){$('sCh').textContent=`Thử thách ${ci+1}/5`;$('sDone').textContent=`Đã nối ${doneAll}/${TOTAL}`;$('sScore').textContent=score;$('bar').style.width=(doneAll/TOTAL*100)+'%'}
+function onCard(c){
+ if(lock||c.classList.contains('done'))return;ac();
+ if(c.dataset.side==='L'){if(selL)selL.classList.remove('sel');selL=c;c.classList.add('sel');sfx.pick();return}
+ if(!selL){shake(c);speak('Con chọn hình bên trái trước nhé!');return}
+ sfx.pick();
+ if(selL.dataset.id===c.dataset.id)good(selL,c);else bad(selL,c)}
+function shake(...e){e.forEach(x=>{x.classList.remove('shake');void x.offsetWidth;x.classList.add('shake')})}
+function good(a,b){
+ const col=COLORS[links.length%COLORS.length];a.classList.remove('sel');[a,b].forEach(x=>x.classList.add('done'));
+ links.push({a,b,col});drawLines(true);selL=null;score+=10;doneAll++;doneCh++;updateStats();sfx.ok();speak(pick(PRAISE));
+ const r=b.getBoundingClientRect();burst(r.left,r.top+r.height/2,12);
+ if(doneCh===CH[ci].p.length){lock=true;setTimeout(nextChallenge,1900)}}
+function bad(a,b){shake(a,b);sfx.bad();speak(pick(RETRY));lock=true;setTimeout(()=>{lock=false},450)}
+function nextChallenge(){
+ if(ci>=CH.length-1){return finish()}
+ $('bnText').textContent=`Giỏi quá! Sang thử thách ${ci+2} nào!`;$('bnIcon').textContent='🐰🐻';$('banner').classList.add('on');burst(innerWidth/2,innerHeight/2,26);
+ setTimeout(()=>{$('banner').classList.remove('on');ci++;loadChallenge()},1700)}
+function finish(){show('win');$('wScore').textContent=score;sfx.win();fireworks();speak('Chúc mừng bé! Con đã hoàn thành tất cả thử thách. Bé thật thông minh!')}
+
+/* ---------- Đường nối (tự khớp khi đổi kích thước) ---------- */
+function drawLines(animateLast){
+ const svg=$('lines'),br=$('board').getBoundingClientRect();svg.setAttribute('viewBox',`0 0 ${br.width} ${br.height}`);
+ svg.innerHTML=links.map((l,i)=>{const a=l.a.getBoundingClientRect(),b=l.b.getBoundingClientRect();
+  const x1=a.right-br.left-6,y1=a.top+a.height/2-br.top,x2=b.left-br.left+6,y2=b.top+b.height/2-br.top,m=(x2-x1)*.55;
+  const last=animateLast&&i===links.length-1;
+  return `<path ${last?'class="draw"':''} pathLength="1" stroke="${l.col}" d="M${x1} ${y1} C${x1+m} ${y1-18},${x2-m} ${y2+18},${x2} ${y2}"/>`}).join('')}
+addEventListener('resize',()=>drawLines(false));
+addEventListener('orientationchange',()=>setTimeout(()=>drawLines(false),300));
+
+/* ---------- Điều khiển ---------- */
+function newGame(){ci=0;score=0;doneAll=0;speechSynthesis&&speechSynthesis.cancel();$('banner').classList.remove('on');show('game');loadChallenge();requestAnimationFrame(()=>drawLines(false))}
+$('btnStart').onclick=()=>{ac();if(musicOn)startMusic();newGame()};
+$('btnAgain').onclick=newGame;
+$('btnReplay').onclick=newGame;
+$('btnMusic').onclick=e=>{musicOn=!musicOn;e.currentTarget.classList.toggle('off',!musicOn);if(musicOn)ac()};
+$('btnVoice').onclick=e=>{voiceOn=!voiceOn;e.currentTarget.classList.toggle('off',!voiceOn);if(!voiceOn&&window.speechSynthesis)speechSynthesis.cancel();else speak('Xin chào bé!')};
+if('speechSynthesis' in window)speechSynthesis.getVoices();
+</script>
+</body>
+</html>

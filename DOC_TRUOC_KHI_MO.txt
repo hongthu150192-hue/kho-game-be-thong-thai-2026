@@ -1,0 +1,1 @@
+HÃY GIẢI NÉN TẤT CẢ TRƯỚC KHI MỞ KHO GAME. Không mở index.html trực tiếp trong tệp ZIP. Xem HUONG_DAN.txt để biết cách sử dụng.
