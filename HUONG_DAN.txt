@@ -1,26 +1,29 @@
 KHO GAME TƯƠNG TÁC AI – BÉ THÔNG THÁI
-BẢN GHÉP LẠI 15 TRÒ CHƠI HTML GỐC
+BẢN CẬP NHẬT: 25 TRÒ CHƠI HTML + 21 TRÒ CHƠI LIÊN KẾT (46 TRÒ CHƠI)
 
-QUAN TRỌNG – CÁCH MỞ ĐÚNG TRÊN MÁY TÍNH
-1. Tải file ZIP về máy.
-2. Nhấp chuột phải vào file ZIP → chọn “Giải nén tất cả” (Extract All).
-3. Mở thư mục “Kho_Game_Be_Thong_Thai_BAN_GHEP_LAI”.
-4. Nhấp đúp “MO_KHO_GAME.bat” hoặc mở “index.html” bằng Chrome/Cốc Cốc.
-5. Chỉ mở kho game sau khi đã giải nén. Không mở index.html ngay trong cửa sổ xem file ZIP.
+1. MỞ KHO GAME TRÊN MÁY TÍNH
+- Giải nén toàn bộ tệp ZIP trước khi mở.
+- Mở thư mục kho-game-be-thong-thai-2026.
+- Nhấp đúp MO_KHO_GAME.bat hoặc mở index.html bằng Chrome/Cốc Cốc.
+- Không mở index.html trực tiếp bên trong cửa sổ xem ZIP.
 
-VÌ SAO CÔ THẤY KHUNG TRÒ CHƠI MÀU XÁM?
-Khi mở index.html trực tiếp bên trong ZIP, trình duyệt có thể đọc được trang chủ nhưng không truy cập được các tệp ở thư mục games. Vì vậy khung trò chơi hiện biểu tượng tệp lỗi. Bản này đã có cảnh báo tự động nếu phát hiện đang mở từ ZIP.
+2. CẬP NHẬT WEBSITE GITHUB PAGES
+- Sao chép nội dung trong thư mục này vào thư mục Repository kho-game-be-thong-thai-2026 trên máy tính.
+- Giữ nguyên cấu trúc index.html, games và assets.
+- Mở GitHub Desktop, kiểm tra các thay đổi, nhập nội dung Commit rồi chọn Commit to main.
+- Chọn Push origin để gửi thay đổi lên GitHub.
+- Chờ GitHub Pages cập nhật rồi mở lại website để kiểm tra.
+- Đường link và mã QR cũ vẫn dùng được nếu không đổi địa chỉ Repository/website.
 
-NỘI DUNG ĐÃ GHÉP
-- 15 trò chơi HTML cô vừa gửi được đặt lại đúng tên và đúng cổng trong thư mục games.
-- 16 trò chơi dạng liên kết vẫn giữ nguyên liên kết gốc.
-- Giữ nguyên giao diện, ảnh bìa khu vườn cổ tích, logo Trường Mầm non Thụy Lâm, tác giả, danh mục và bố cục của app.
-- Không thêm lại “Giải cứu vương quốc chữ cái” và “Sớm mai thức dậy”.
+3. DANH SÁCH TRÒ CHƠI
+- 25 trò chơi HTML nằm trong thư mục games.
+- 21 trò chơi liên kết: giữ lại 9 liên kết cũ và thêm đủ 12 liên kết mới theo danh sách Word.
+- Hai liên kết mới “Ôn trong phạm vi 8” và “Bé rửa tay” có cùng địa chỉ đích với hai mục cũ tương ứng, nhưng được giữ thành hai thẻ riêng theo yêu cầu 12 mới + 9 cũ.
+- Đã xóa 8 trò chơi cô yêu cầu.
 
-DÙNG TRÊN ĐIỆN THOẠI / IPAD
-Để trẻ mở bằng QR hoặc đường link, hãy tải toàn bộ nội dung bên trong thư mục đã giải nén (index.html, games, assets, các file hướng dẫn) lên Netlify. Không tải riêng index.html.
+4. ÂM THANH TRÊN ĐIỆN THOẠI / IPAD
+- Trình duyệt di động có thể chặn âm thanh tự phát khi mới mở trang. Bé cần chạm BẮT ĐẦU hoặc nút loa trong trò chơi để kích hoạt âm thanh.
+- Nếu chưa nghe tiếng, kiểm tra âm lượng phương tiện và trạng thái tắt tiếng của trò chơi.
 
-ÂM THANH TRÊN ĐIỆN THOẠI / IPAD
-- Khi vừa mở một trò chơi, trình duyệt có thể không cho phát âm thanh tự động. Đây là cơ chế bảo vệ của Chrome, Safari và các trình duyệt di động, không phải lỗi của trò chơi.
-- Bé nhấn nút BẮT ĐẦU CHƠI để kích hoạt lời chào/câu hỏi và âm thanh trong trò chơi. Với trò chơi có biểu tượng loa, có thể chạm biểu tượng loa để bật hoặc nghe lại.
-- Nếu vẫn chưa nghe thấy tiếng sau khi chạm BẮT ĐẦU hoặc biểu tượng loa, hãy tăng âm lượng phương tiện của thiết bị và kiểm tra xem trò chơi có đang tắt tiếng hay không.
+WEBSITE GITHUB PAGES
+https://hongthu150192-hue.github.io/kho-game-be-thong-thai-2026/
